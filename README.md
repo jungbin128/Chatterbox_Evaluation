@@ -9,7 +9,6 @@
 본 evaluation 코드는 학습 및 추론 파트와 독립적으로 동작하며,
 TTS 출력 품질 검증 및 실험 결과 정리에 사용된다.
 
----
 
 ## What is included
 
@@ -22,7 +21,6 @@ TTS 출력 품질 검증 및 실험 결과 정리에 사용된다.
 본 모듈은 standalone evaluation 도구로 설계되어 있으며,
 training / inference 코드 없이도 단독 실행 가능하다.
 
----
 
 ## My Environment
 
@@ -33,7 +31,6 @@ training / inference 코드 없이도 단독 실행 가능하다.
 - Whisper large-v2 ASR 모델
 - WV-MOS pretrained 모델 사용
 
----
 
 ## Environment Setup
 
@@ -56,7 +53,31 @@ apt install ffmpeg
 pip install -r requirements.txt
 ```
 
----
+### 4. WV-MOS PyTorch 2.6+ 호환성 패치
+
+PyTorch 2.6 이상에서는 `torch.load`의 기본값이 `weights_only=True`로 변경되어 WV-MOS 모델 로딩 시 오류가 발생한다.
+아래 명령어로 wvmos 라이브러리를 패치해야 한다:
+
+```bash
+# wvmos 설치 경로 확인
+WVMOS_PATH=$(python -c "import wvmos; print(wvmos.__file__.replace('__init__.py', 'wv_mos.py'))")
+
+# 패치 적용
+sed -i "s/torch.load(path)/torch.load(path, weights_only=False, map_location='cuda' if cuda and torch.cuda.is_available() else 'cpu')/g" "$WVMOS_PATH"
+
+echo "Patched: $WVMOS_PATH"
+```
+
+또는 수동으로 `wv_mos.py` 파일의 70번째 줄을 다음과 같이 수정:
+
+```python
+# Before
+self.load_state_dict(extract_prefix('model.', torch.load(path)['state_dict']))
+
+# After
+device = 'cuda' if cuda and torch.cuda.is_available() else 'cpu'
+self.load_state_dict(extract_prefix('model.', torch.load(path, weights_only=False, map_location=device)['state_dict']))
+```
 
 ## Usage
 
@@ -69,7 +90,6 @@ tts_audios/
 ├── utt_02.wav  
 ├── utt_02.txt  
 
----
 
 ## Evaluation 실행
 
@@ -91,7 +111,6 @@ python eval_tts_folder.py \
 - language : Whisper 언어 힌트 (예: Korean)
 - cpu_mos : MOS 계산을 CPU에서 수행 (GPU 미사용 시)
 
----
 
 ## Output
 
@@ -107,7 +126,6 @@ CSV 파일에는 다음 정보가 포함된다:
 - MOS 점수
 - WER 점수 (참조 텍스트가 존재하는 경우)
 
----
 
 ## Citation
 
