@@ -106,3 +106,16 @@ CSV 파일에는 다음 정보가 포함된다:
 - Whisper 전사 결과
 - MOS 점수
 - WER 점수 (참조 텍스트가 존재하는 경우)
+
+---
+
+## Citation
+
+@misc{manku2025emergentttseval,  
+    title={EmergentTTS-Eval: Evaluating TTS Models on Complex Prosodic, Expressiveness, and Linguistic Challenges Using Model-as-a-Judge},  
+    author={Ruskin Raj Manku and Yuzhi Tang and Xingjian Shi and Mu Li and Alex Smola},  
+    year={2025},  
+    eprint={2505.23009},  
+    archivePrefix={arXiv},  
+    primaryClass={cs.LG}  
+}
