@@ -51,6 +51,8 @@ apt install ffmpeg
 
 pip install -r requirements.txt
 
+---
+
 ## Usage
 
 각 음성 파일은 동일한 이름의 .txt 참조 텍스트 파일을 가져야 한다.
@@ -61,6 +63,8 @@ tts_audios/
 ├── sample_01.txt
 ├── sample_02.wav
 ├── sample_02.txt
+
+---
 
 ## Evaluation 실행
 
@@ -82,6 +86,8 @@ python eval_tts_folder.py \
 --language : Whisper 언어 힌트 (예: Korean)
 
 --cpu_mos : MOS 계산을 CPU에서 수행 (GPU 미사용 시)
+
+---
 
 ## Output
 
