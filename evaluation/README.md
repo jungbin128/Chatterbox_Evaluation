@@ -42,32 +42,38 @@ training / inference 코드 없이도 단독 실행 가능하다.
 ```bash
 python -m venv .env
 source .env/bin/activate
+```
 
 ### 2. 시스템 의존성 설치
 
+```
 apt install ffmpeg
+```
 
 ### 3. Python 패키지 설치
 
+```
 pip install -r requirements.txt
+```
 
 ---
 
 ## Usage
 
-각 음성 파일은 동일한 이름의 .txt 참조 텍스트 파일을 가져야 한다.
-예시 디렉토리 구조:
+각 음성 파일은 동일한 이름의 .txt 참조 텍스트 파일을 가져야 한다.  
+예시 디렉토리 구조:  
 
-tts_audios/
-├── sample_01.wav
-├── sample_01.txt
-├── sample_02.wav
-├── sample_02.txt
+tts_audios/  
+├── utt_01.wav  
+├── utt_01.txt  
+├── utt_02.wav  
+├── utt_02.txt  
 
 ---
 
 ## Evaluation 실행
 
+```
 cd ~/tts_eval
 source .env/bin/activate
 
@@ -76,32 +82,27 @@ python eval_tts_folder.py \
   --whisper_model base \
   --language Korean \
   --cpu_mos
+```
 
 옵션 설명:
 
---audio_dir : 평가할 음성 및 참조 텍스트가 포함된 폴더
-
---whisper_model : Whisper ASR 모델 크기 (tiny, base, small, medium, large-v2 등)
-
---language : Whisper 언어 힌트 (예: Korean)
-
---cpu_mos : MOS 계산을 CPU에서 수행 (GPU 미사용 시)
+- audio_dir : 평가할 음성 및 참조 텍스트가 포함된 폴더
+- whisper_model : Whisper ASR 모델 크기 (tiny, base, small, medium, large-v2 등)
+- language : Whisper 언어 힌트 (예: Korean)
+- cpu_mos : MOS 계산을 CPU에서 수행 (GPU 미사용 시)
 
 ---
 
 ## Output
 
-파일별 MOS 및 WER 결과 출력
-전체 평균 MOS / WER 요약 통계 출력
-
-CSV 파일 생성 위치:
+- 파일별 MOS 및 WER 결과 출력
+- 전체 평균 MOS / WER 요약 통계 출력
+- CSV 파일 생성 위치:
 /path/to/audio_dir/tts_eval_results.csv
 
-
-CSV 파일에는 다음 정보가 포함된다.
-
-파일명
-참조 텍스트
-Whisper 전사 결과
-MOS 점수
-WER 점수 (참조 텍스트가 존재하는 경우)
+CSV 파일에는 다음 정보가 포함된다:  
+- 파일명
+- 참조 텍스트
+- Whisper 전사 결과
+- MOS 점수
+- WER 점수 (참조 텍스트가 존재하는 경우)
