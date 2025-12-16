@@ -1,6 +1,3 @@
-# Finetuning
-
-# Evaluation
 torch
 torchaudio
 pandas
